@@ -1,0 +1,25 @@
+{
+    "name": "cabal",
+    "title": "jQuery Validator Cabal",
+    "description": "jQuery plugin for data validation / plugin jquery para validación de datos",
+    "keywords": [
+        "validator",
+        "form",
+		"data"
+        ],
+    "version": "1.0.0",
+    "author": {
+            "name": "Cristian Camilo Diaz Agudelo",
+		    "email" : "orgullo@users.sourceforge.net",
+            "url": "http://orgullo.users.sourceforge.net/blog/"
+        },
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "https://http://opensource.org/licenses/MIT"
+        }
+    ],
+    "dependencies": {
+        "jquery": ">=1.9"
+    }
+}
