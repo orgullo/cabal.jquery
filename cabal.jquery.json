@@ -1,7 +1,7 @@
 {
     "name": "cabal",
-    "title": "jQuery Validator Cabal",
-    "description": "jQuery plugin for data validation / plugin jquery para validación de datos",
+    "title": "Data Validator Cabal",
+    "description": "jQuery plugin for data and forms validation / Plugin jquery para validaciÃ³n de datos y formularios",
     "keywords": [
         "validator",
         "form",
