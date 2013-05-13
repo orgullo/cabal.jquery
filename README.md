@@ -1,73 +1,66 @@
-Plugin jQuery Cabal
-===================
+#Plugin jQuery Cabal
 
 Validador de campos para la web (html), el cual es poderoso, extensible y personalizable.
 
-Caracteristicas
----------------
+#Caracteristicas
 
-#Soporte de validaci髇 para los siguientes elementos #
+##Soporte de validaci贸n para los siguientes elementos
 
-    * input type text
-	* input type password
-	* input type radio
-	* input type checkbox
-	* textarea
-	* select
+  * input type text
+  * input type password
+  * input type radio
+  * input type checkbox
+  * textarea
+  * select
 
-#Funciones independientes# 
+##Funciones independientes
 
-  Puedes crear tantas funciones como sean necesarias y su alcance puede ser general o especifico.
+Permite crear tantas funciones como sean necesarias y su alcance puede ser general o especifico.
   
-  *General: Las puedes incluir en tu script de funciones genericas (functions.cabal.x.js) y poder utilizarlas en cualquier lugar.
-  *Especifico: puedes crear funciones en el documento que necesites con referencias especificas.
+  * General: Se incluyen en el archivos de funciones globales (functions.cabal.x.js) para utilizarlas en cualquier lugar.
+  * Especifico: puede crear funciones en el documento que sea necesario con referencias especificas del propio documento.
   
-#Personalizaci髇 de visualizaci髇 de mensajes#
+##Personalizaci贸n de visualizaci贸n de mensajes
 
-  El plugin permite ver los mensajes de dos maneras. 
-  
-  * dialogo: muestra los mensajes de validaci髇 en un alert()
+  El plugin permite ver los mensajes de dos maneras.
+  * dialogo: muestra los mensajes de validaci贸n en un alert()
   * flotantes: Muestra los mensajes flotando cerca al elemento que se esta validando.
   
-  Estos dos metodos son publicos, por lo cual puden ser sobreescritos para que los visualices seg鷑 tus necesidades. 
-  Ejemplo: utilizar jquery ui para utilizar un dialogo mas bonito o concordante a tu aplicaci髇.
+Estos metodos son publicos y pueden ser sobreescritos deacuerdo a las necesidades. 
+Ejemplo: utilizar jquery ui para utilizar un dialogo mas estilizado o concordante a tu aplicaci贸n.
 
-#Validaci髇 mediante selector# 
+##Validaci贸n mediante selector
 
-Lo cual te permite validar la secci髇 de datos que necesites en el momento que necesites.
-Puede ser un formulario completo o simplemente un campo bajo una condici髇 especifica.
+Los elementos a validar son indicados mediante los selectores de jQuery, lo cual permite validar la secci贸n de datos necesario en el momento necesario.
+Los elementos a validar puede ser desde un formulario completo hasta un simple campo.
 
-#Facil de usar#
+##Facil de usar
 
-	1. Incluir en la seci髇 HEAD del DOM (documento html) los siguientes documentos, en el siguiente orden:
-	
-	   * libreria jquery
-	   * css de cabal (jquery.cabal.css)
-	   * js de cabal (jquery.cabal.js)
-	   * js de la funciones genericas de cabal (functions.cabal.x.js)
-	   
-	2. En tu documento html marca los elementos a validar utilizando el atributo class. 
-	   Ejemplo: 
-	   ``` html
-	   <input type="text" name="nombre" class="cabal[funcion1(atributos);funcion2(atributos)... funcionN(atributos)]">
-       ```
-	
-	3. Realiza la validaci髇 en javasdcript cuando sea necesario, de los elementos que sean necesarios.
-	   Ejemplo: 
-	   
-	   ``` javascript
-	   $("#form *").cabal(); 
-	   ```
-	   
-	   Este linea valida todos los elementos que se encuentran en el #form
-	
-Licencia
----------
+1. Incluir en la seci贸n HEAD del DOM (documento html) los siguientes documentos, en el siguiente orden:
+  * libreria jquery
+  * css de cabal (jquery.cabal.css)
+  * js de cabal (jquery.cabal.js)
+  * js de la funciones genericas de cabal (functions.cabal.x.js)
+
+2. En tu documento html marca los elementos a validar utilizando el atributo class. Ejemplo:
+    ```htm
+    <input type="text" name="nombre" class="cabal[funcion1(atributos);funcion2(atributos)... funcionN(atributos)]">
+    ```
+
+3. Realiza la validaci贸n en javasdcript cuando sea necesario, de los elementos que sean necesarios.
+   Ejemplo:
+
+	```javascript
+	   $("#form *").cabal();
+	```
+
+Esta linea valida todos los elementos que se encuentran en el #form y retorna un valor booleano (true/false) indicando el resultado de la validaci贸n.
+
+#Licencia
 
 MIT license. Open Source.
 
-Notas
------
+#Notas
 
-* la letra x (equis) en el nombre del archivo <functions.cabal.x.js> se refiere al idioma del archivo. 
-  Inicialmente el plugin solo trae soporte en espa駉l
+  * la letra x (equis) en el nombre del archivo <functions.cabal.x.js> se refiere al idioma del archivo. 
+  Inicialmente el plugin solo trae soporte en espa帽ol
