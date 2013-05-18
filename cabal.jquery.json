@@ -2,14 +2,15 @@
     "name": "cabal",
     "title": "Data Validator Cabal",
     "description": "jQuery plugin for data and forms validation / Plugin jquery para validación de datos y formularios",
+    "homepage": "http://orgullo.users.sourceforge.net/jquery/cabal.php",
     "keywords": [
         "validator",
         "form",
 		"data"
         ],
-    "version": "1.0.0",
+    "version": "1.0.1",
     "author": {
-            "name": "Cristian Camilo Diaz Agudelo",
+            "name": "Cristian Diaz",
 		    "email" : "orgullo@users.sourceforge.net",
             "url": "http://orgullo.users.sourceforge.net/blog/"
         },

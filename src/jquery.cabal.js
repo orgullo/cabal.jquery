@@ -5,13 +5,24 @@
 	{
 		var idSelector = obtenerId(this.selector);
 		var resultado=true;
-		var settings = $.extend($.fn.cabal.defaults, options );
+		var settings = $.extend
+		(
+			{
+				"mensajes-dialogo":true, //mostrar mensajes al final
+				"mensajes-elemento":false // mostrar mensajes por elemento
+			},
+			options 
+		);
 		var mensajes = new Array();
 		var i=0;
 		
 		if(settings["mensajes-dialogo"] == false && settings["mensajes-elemento"]== false)
 		{
 			settings["mensajes-dialogo"]=true; //se asegura que se muestren los mensajes
+		}
+		else if(settings["mensajes-dialogo"] == true && settings["mensajes-elemento"]== true)
+		{
+			settings["mensajes-dialogo"]=false; //se asegura que se muestren los mensajes
 		}
 		
 		if(settings["mensajes-elemento"])
@@ -45,12 +56,12 @@
 		return resultado;
 	};	
 	
+	/*
 	//opciones por defecto
 	$.fn.cabal.defaults = {
 		"mensajes-dialogo":true, //mostrar mensajes al final
 		"mensajes-elemento":false // mostrar mensajes por elemento
-	};
-	
+	};*/
 	
 	//****Funciones Secundarias publicas****
 	
