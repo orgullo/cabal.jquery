@@ -5,54 +5,65 @@
 	{
 		var idSelector = obtenerId(this.selector);
 		var resultado=true;
-		var settings = $.extend
-		(
+		
+		if($.type(options)=="string")
+		{
+			if(options=="ocultarMensajes")
 			{
-				"mensajes-dialogo":true, //mostrar mensajes al final
-				"mensajes-elemento":false // mostrar mensajes por elemento
-			},
-			options 
-		);
-		var mensajes = new Array();
-		var i=0;
-		
-		if(settings["mensajes-dialogo"] == false && settings["mensajes-elemento"]== false)
-		{
-			settings["mensajes-dialogo"]=true; //se asegura que se muestren los mensajes
+				$.fn.cabal.ocultarMensajesElemento(idSelector);
+			}
 		}
-		else if(settings["mensajes-dialogo"] == true && settings["mensajes-elemento"]== true)
+		else if($.type(options)=="object" || options==null)
 		{
-			settings["mensajes-dialogo"]=false; //se asegura que se muestren los mensajes
-		}
-		
-		if(settings["mensajes-elemento"])
-		{
-			$.fn.cabal.ocultarMensajesElemento(idSelector);
-		}
-		
-		this.each(function()
-		{			
-			var mensaje=validar(this,settings["mensajes-elemento"],idSelector);
-			if(mensaje.length > 0)
-			{
-				$(mensaje).each(function()
+			var settings = $.extend
+			(
 				{
-					mensajes[i] = this;
-					i++;
-				});
+					"mensajes-dialogo":true, //mostrar mensajes al final
+					"mensajes-elemento":false // mostrar mensajes por elemento
+				},
+				options 
+			);
+			var mensajes = new Array();
+			var i=0;
+			
+			if(settings["mensajes-dialogo"] == false && settings["mensajes-elemento"]== false)
+			{
+				settings["mensajes-dialogo"]=true; //se asegura que se muestren los mensajes
+			}
+			else if(settings["mensajes-dialogo"] == true && settings["mensajes-elemento"]== true)
+			{
+				settings["mensajes-dialogo"]=false; //se asegura que se muestren los mensajes
 			}
 			
-		});
-		
-		if(mensajes.length > 0)
-		{
-			if(settings["mensajes-dialogo"])
+			if(settings["mensajes-elemento"])
 			{
-				$.fn.cabal.verMensajes(mensajes);
+				$.fn.cabal.ocultarMensajesElemento(idSelector);
 			}
-			resultado = false;
+			
+			this.each(function()
+			{			
+				var mensaje=validar(this,settings["mensajes-elemento"],idSelector);
+				if(mensaje.length > 0)
+				{
+					$(mensaje).each(function()
+					{
+						mensajes[i] = this;
+						i++;
+					});
+				}
+				
+			});
+			
+			if(mensajes.length > 0)
+			{
+				if(settings["mensajes-dialogo"])
+				{
+					$.fn.cabal.verMensajes(mensajes);
+				}
+				resultado = false;
+			}
+			
 		}
-		
 		return resultado;
 	};	
 	
@@ -104,6 +115,11 @@
 		$(".cabalPrompt"+idSelector).remove();
 	};
 	
+	//ocultar los mensajes especificos de cada elemento. Esta funcion se relaciona directamente con $.fn.cabal.verMensajeElemento
+	$.fn.cabal.ocultarTodo = function ()
+	{
+		$(".cabalPrompt").remove();
+	};
 	
 	//Funciones privadas
 	function validar(objetivo,mensajes_elemento,idSelector)
@@ -190,5 +206,16 @@
 		});
 		return resultado;
 	}
+	
+	$.cabal=function( options )
+	{
+		if($.type(options)=="string")
+		{
+			if(options == "ocultarMensajes")
+			{
+				$.fn.cabal.ocultarTodo();
+			}
+		}
+	};
 	
 }( jQuery ));
