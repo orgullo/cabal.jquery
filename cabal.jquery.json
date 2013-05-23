@@ -4,12 +4,13 @@
     "description": "jQuery plugin for data and forms validation / Plugin jquery para validación de datos y formularios",
     "homepage": "http://orgullo.users.sourceforge.net/jquery/cabal.php",
     "demo": "http://orgullo.users.sourceforge.net/jquery/cabal.php?tab=1",
+    "docs": "http://orgullo.users.sourceforge.net/jquery/cabal.php?tab=0",
     "keywords": [
         "validator",
         "form",
 		"data"
         ],
-    "version": "1.1.0",
+    "version": "1.1.1",
     "author": {
             "name": "Cristian Diaz",
 		    "email" : "orgullo@users.sourceforge.net",
