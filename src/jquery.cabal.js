@@ -63,6 +63,11 @@
 				resultado = false;
 			}
 			
+			if(settings["mensajes-elemento"])
+			{
+				$.fn.cabal.enfocar(idSelector);
+			}
+			
 		}
 		return resultado;
 	};	
@@ -119,6 +124,35 @@
 	$.fn.cabal.ocultarTodo = function ()
 	{
 		$(".cabalPrompt").remove();
+	};
+	
+	//Enfoca el primer elemento. Esta funcion se relaciona directamente con $.fn.cabal.verMensajeElemento
+	$.fn.cabal.enfocar = function (idSelector)
+	{
+		var elemento = $(".cabalPrompt"+idSelector+":first"); //busca el primer elemento
+		var docViewTop = $(window).scrollTop();
+	    var docViewBottom = docViewTop + $(window).height();
+
+	    var elemTop = $(elemento).offset().top;
+	    var elemBottom = elemTop + $(elemento).height();
+	    var esVisible = ((elemBottom <= docViewBottom) && (elemTop >= docViewTop));
+	    
+	    if(!esVisible)
+	    {
+	    	var top;
+	    	var adicional=50;
+	    	if(elemTop >= 0 && elemTop<=adicional)
+	    	{
+	    		top = elemTop; 
+    		}
+	    	else
+	    	{
+	    		top = elemTop-adicional;
+	    	}
+	    	$('html, body').animate({scrollTop:top}, 'slow');
+	    }
+	    
+		
 	};
 	
 	//Funciones privadas
