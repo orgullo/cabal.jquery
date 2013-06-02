@@ -106,24 +106,44 @@
 		$("body").append(div);
 		var pos   = $(objetivo).offset();
 	    var width = $(objetivo).width();
-	    $(div).css({ "left": (pos.left + width) + "px", "top":pos.top + "px","position":"absolute" }).fadeIn("slow");
+	    var height = $(objetivo).outerHeight();
+	    $(div).css({ "left": (pos.left + width) + "px", "top":(pos.top) + "px","position":"absolute" }).fadeIn("slow");
 	    
-	    $(div).click(function()
+	    return div;
+	};
+	
+	$.fn.cabal.finalizarElemento = function (objetivo, extra)
+	{
+		$(extra).on("click",function()
     	{
-	    	$(this).remove();
+	    	$(extra).fadeOut('slow', function() {
+	    		 $(this).remove();
+	    	});
 	   	});
+	    
+	    $(objetivo).one("focus",function()
+	    {
+	    	$(extra).fadeOut('slow', function() {
+	    		 $(this).remove();
+	    	});
+	    	
+	    });
 	};
 	
 	//ocultar los mensajes especificos de cada elemento. Esta funcion se relaciona directamente con $.fn.cabal.verMensajeElemento
 	$.fn.cabal.ocultarMensajesElemento = function ( idSelector )
 	{
-		$(".cabalPrompt"+idSelector).remove();
+		$(".cabalPrompt"+idSelector).fadeOut('slow', function() {
+   		 	$(this).remove();
+		});
 	};
 	
 	//ocultar los mensajes especificos de cada elemento. Esta funcion se relaciona directamente con $.fn.cabal.verMensajeElemento
 	$.fn.cabal.ocultarTodo = function ()
 	{
-		$(".cabalPrompt").remove();
+		$(".cabalPrompt").fadeOut('slow', function() {
+   		 	$(this).remove();
+		});
 	};
 	
 	//Enfoca el primer elemento. Esta funcion se relaciona directamente con $.fn.cabal.verMensajeElemento
@@ -223,7 +243,8 @@
             			
             			if(mensajes_elemento)
             			{
-            				$.fn.cabal.verMensajeElemento(objetivo,arrayMensajes,idSelector);
+            				var extra=$.fn.cabal.verMensajeElemento(objetivo,arrayMensajes,idSelector);
+            				$.fn.cabal.finalizarElemento(objetivo,extra);
             			}
         			}
         		}   		
