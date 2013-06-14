@@ -13,6 +13,10 @@ Validador de campos para la web (html), el cual es poderoso, extensible y person
   * textarea
   * select
 
+##Soporte para validaciones Ajax
+
+  En la versión 2 se adiciona soporte para peticiones ajax asíncronas. 
+
 ##Funciones independientes
 
 Permite crear tantas funciones como sean necesarias y su alcance puede ser general o especifico.
@@ -51,10 +55,10 @@ Los elementos a validar puede ser desde un formulario completo hasta un simple c
    Ejemplo:
 
 	```javascript
-	   $("#form *").cabal();
+	   $("#form *").cabal(function(){ alert("Exito!"); });
 	```
 
-Esta linea valida todos los elementos que se encuentran en el #form y retorna un valor booleano (true/false) indicando el resultado de la validación.
+Esta linea valida todos los elementos que se encuentran en el #form y visualiza el mensaje "Exito" al cumplir las reglas.
 
 #Licencia
 

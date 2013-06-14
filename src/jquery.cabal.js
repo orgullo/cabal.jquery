@@ -1,83 +1,80 @@
 (function ( $ ) 
 {
 	//Definición del plugin
-	$.fn.cabal = function( options )
+	$.fn.cabal = function( options, funcError )
 	{
 		var idSelector = obtenerId(this.selector);
 		var resultado=true;
+		var terminar = function(){};
+		var error = function(){};
 		
 		if($.type(options)=="string")
 		{
-			if(options=="ocultarMensajes")
+			if(options=="hide")
 			{
 				$.fn.cabal.ocultarMensajesElemento(idSelector);
 			}
 		}
-		else if($.type(options)=="object" || options==null)
+		else if($.type(options)=="object" || options==null || $.type( options ) === "function")
 		{
-			var settings = $.extend
-			(
+			var elementosValidar  = new Array();
+			$(this).each(function()
+			{
+				if(this.tagName == "INPUT" || this.tagName == "TEXTAREA" || this.tagName == "SELECT")
 				{
-					"mensajes-dialogo":true, //mostrar mensajes al final
-					"mensajes-elemento":false // mostrar mensajes por elemento
-				},
-				options 
-			);
-			var mensajes = new Array();
-			var i=0;
-			
-			if(settings["mensajes-dialogo"] == false && settings["mensajes-elemento"]== false)
-			{
-				settings["mensajes-dialogo"]=true; //se asegura que se muestren los mensajes
-			}
-			else if(settings["mensajes-dialogo"] == true && settings["mensajes-elemento"]== true)
-			{
-				settings["mensajes-dialogo"]=false; //se asegura que se muestren los mensajes
-			}
-			
-			if(settings["mensajes-elemento"])
-			{
-				$.fn.cabal.ocultarMensajesElemento(idSelector);
-			}
-			
-			this.each(function()
-			{			
-				var mensaje=validar(this,settings["mensajes-elemento"],idSelector);
-				if(mensaje.length > 0)
-				{
-					$(mensaje).each(function()
-					{
-						mensajes[i] = this;
-						i++;
-					});
+					elementosValidar.push(this);
 				}
 				
 			});
 			
-			if(mensajes.length > 0)
+			if($.type(options)=="object" || options==null)
 			{
-				if(settings["mensajes-dialogo"])
+				var settings = $.extend
+				(
+					{
+						"dialog":true, //mostrar mensajes al final
+						"success":terminar,
+						"error":error
+					},
+					options
+				);
+			}
+			else
+			{
+				var settings =
 				{
-					$.fn.cabal.verMensajes(mensajes);
+					"dialog":true,//mostrar mensajes al final
+					"success":terminar,
+					"error":error
+				};
+			}
+			var mensajes = new Array();
+			
+			if(!settings["dialog"])
+			{
+				$.fn.cabal.ocultarMensajesElemento(idSelector);
+			}
+						
+			
+			if ($.type( options ) === "function")
+			{
+				terminar = options;
+				if ($.type( funcError ) === "function")
+				{
+					error = funcError;
 				}
-				resultado = false;
+			}
+			else if($.type(options)=="object")
+			{
+				terminar = settings.success;
+				error = settings.error;
 			}
 			
-			if(settings["mensajes-elemento"])
-			{
-				$.fn.cabal.enfocar(idSelector);
-			}
+			var todosLosMensajes = new Array();
+			validar(elementosValidar[0],!settings["dialog"],idSelector,0,elementosValidar,true, terminar,todosLosMensajes,error);
 			
 		}
-		return resultado;
-	};	
-	
-	/*
-	//opciones por defecto
-	$.fn.cabal.defaults = {
-		"mensajes-dialogo":true, //mostrar mensajes al final
-		"mensajes-elemento":false // mostrar mensajes por elemento
-	};*/
+	};
 	
 	//****Funciones Secundarias publicas****
 	
@@ -115,7 +112,9 @@
 	$.fn.cabal.finalizarElemento = function (objetivo, extra)
 	{
 		$(extra).on("click",function()
-    	{
+    	{	
+			//$(extra).hide("explode",null,500).remove();
+			
 	    	$(extra).fadeOut('slow', function() {
 	    		 $(this).remove();
 	    	});
@@ -123,6 +122,8 @@
 	    
 	    $(objetivo).one("focus",function()
 	    {
+	    	//$(extra).hide("explode",null,500).remove();
+	    	
 	    	$(extra).fadeOut('slow', function() {
 	    		 $(this).remove();
 	    	});
@@ -179,79 +180,181 @@
 	};
 	
 	//Funciones privadas
-	function validar(objetivo,mensajes_elemento,idSelector)
+	function validar(objetivo,mensajes_elemento,idSelector,i,elementos,valido,exito,todosLosMensajes,error)
 	{
-		var resultado= new Array();
 		var rulesParsing = $(objetivo).attr('class');
         var getRules = /cabal\[(.*)\]/.exec(rulesParsing);
         if (!getRules)
-            return resultado;
-        var str = getRules[1];
-        var rules = str.split(/;/);
-        var elemento=$(objetivo).get(0).tagName;
-        var i=0;
-        var esFuncion=/.*\(.*\)/;
-        $(rules).each(function()
-		{        	
-        	if(esFuncion.test(this))
-    		{
-        		var validacion="ninguna";
-        		var opciones=this.match(/\(.*\)/)[0];
-        		opciones=opciones.substr(1,opciones.length-2); //se eliminan parentesis            		
-        		var nombre=this.replace(/\(.*\)/,"");
-        		
-        		if(elemento=="INPUT")
-        		{
-	            	var tipo=$(objetivo).attr('type');
-	            	if(tipo=="text" || tipo=="password")
-	        		{
-	            		validacion="texto";
-	        		}
-	            	else if(tipo=="radio")
-	        		{
-	            		validacion="radio";
-	        		}
-	            	else if(tipo=="checkbox")
-            		{
-	            		validacion="checkbox";
-            		}
-        		}
-            	else if(elemento=="TEXTAREA")
-            	{
-            		validacion="texto";
-            	}
-            	else if(elemento=="SELECT")
-            	{
-            		validacion="select";
-            	}            	
-        		
-        		if(validacion!="ninguna")//solo permite las validaciones soportadas
-        		{
-        			var arrayMensajes = new Array();
-        			var fn = window[nombre];
-        			if(typeof fn === 'function') {
-        				arrayMensajes=fn(objetivo,opciones,validacion);
-        			}
-        			
-            		if(arrayMensajes.length > 0)
+    	{
+        	var siguienteObjetivo = elementos[i+1];
+	        if (siguienteObjetivo == null)
+	    	{
+
+	        	if(valido) // pasó las validaciones
+	    		{
+	        		exito();
+	    		}
+	        	else
+	    		{
+	        		if(!mensajes_elemento)
+	    			{
+	    				$.fn.cabal.verMensajes(todosLosMensajes);
+	    			}
+	        		else
         			{
-            			$(arrayMensajes).each(function()
-            			{
-            				resultado[i] = this;
-                			i++;
-            			});
-            			
-            			if(mensajes_elemento)
-            			{
-            				var extra=$.fn.cabal.verMensajeElemento(objetivo,arrayMensajes,idSelector);
-            				$.fn.cabal.finalizarElemento(objetivo,extra);
-            			}
+	        			$.fn.cabal.enfocar(idSelector);
         			}
-        		}   		
-        		
-    		}
-		});
-		return resultado;
+	        		error();
+	    		}
+	    	}
+	        else
+	    	{
+	        	validar(siguienteObjetivo,mensajes_elemento,idSelector,i+1,elementos,valido,exito,todosLosMensajes,error);
+	    	}
+    	}
+        else
+        {
+	        var str = getRules[1];	         
+	        var rules = str.split(/;/);
+	        var totalReglas = rules.length;
+	        var elemento=$(objetivo).get(0).tagName;
+	        var esFuncion=/.*\(.*\)/;
+	        var mensajesObjetivo = new Array();
+	        $(rules).each(function(reglaActual)
+			{
+	        	if(esFuncion.test(this))
+	    		{
+	        		var validacion="ninguna";
+	        		var opciones=this.match(/\(.*\)/)[0];
+	        		opciones=opciones.substr(1,opciones.length-2); //se eliminan parentesis            		
+	        		var nombre=this.replace(/\(.*\)/,"");
+	        		
+	        		if(elemento=="INPUT")
+	        		{
+		            	var tipo=$(objetivo).attr('type');
+		            	if(tipo=="text" || tipo=="password")
+		        		{
+		            		validacion="texto";
+		        		}
+		            	else if(tipo=="radio")
+		        		{
+		            		validacion="radio";
+		        		}
+		            	else if(tipo=="checkbox")
+	            		{
+		            		validacion="checkbox";
+	            		}
+	        		}
+	            	else if(elemento=="TEXTAREA")
+	            	{
+	            		validacion="texto";
+	            	}
+	            	else if(elemento=="SELECT")
+	            	{
+	            		validacion="select";
+	            	}            	
+	        		
+	        		if(validacion!="ninguna")//solo permite las validaciones soportadas
+	        		{
+	        			var arrayMensajes = new Array();
+	        			var fn = window[nombre];
+	        			if(typeof fn === 'function') {
+	        				
+	        				function siguiente(arrayMensajes)
+	        				{
+	        					if(arrayMensajes.length > 0)
+	                			{
+	                    			$(arrayMensajes).each(function()
+	                    			{
+        	        					todosLosMensajes.push(this);
+        	        					mensajesObjetivo.push(this);
+	                        			valido =false;
+	                    			});
+	                			}
+	        					if((reglaActual+1) == totalReglas) //pase al siguiente elemento tras validar la ultima regla
+	        					{
+	        						if(mensajes_elemento)
+	                    			{
+	        							if(mensajesObjetivo.length > 0)
+	    	        					{
+	    	                				var extra=$.fn.cabal.verMensajeElemento(objetivo,mensajesObjetivo,idSelector);
+	    	                				$.fn.cabal.finalizarElemento(objetivo,extra);
+	    	        					}            				
+	                    			}
+		        					var siguienteObjetivo = elementos[i+1];		        					
+		        			        if (siguienteObjetivo == null)
+		        			    	{
+		
+		        			        	if(valido) // pasó las validaciones
+		        			    		{
+		        			        		exito();
+		        			    		}
+		        			        	else
+		        			    		{
+		        			        		if(!mensajes_elemento)
+		        			    			{
+		        			    				$.fn.cabal.verMensajes(todosLosMensajes);
+		        			    			}
+		        			        		else
+	        			        			{
+		        			        			$.fn.cabal.enfocar(idSelector);
+	        			        			}
+		        			        		error();
+		        			    		}
+		        			    	}
+		        			        else
+		        			    	{
+		        			        	validar(siguienteObjetivo,mensajes_elemento,idSelector,i+1,elementos,valido,exito,todosLosMensajes,error);
+		        			    	}
+	        					}
+	        				}
+	        				
+	        				fn(objetivo,opciones,validacion,siguiente);
+	        			}
+	        		}
+	        		else
+	    			{
+	        			if((reglaActual+1) == totalReglas)
+    					{
+	        				if(mensajes_elemento)
+                			{
+	        					if(mensajesObjetivo.length > 0)
+	        					{
+	                				var extra=$.fn.cabal.verMensajeElemento(objetivo,mensajesObjetivo,idSelector);
+	                				$.fn.cabal.finalizarElemento(objetivo,extra);
+	        					}
+                			}
+		        			var siguienteObjetivo = elementos[i+1];
+					        if (siguienteObjetivo == null)
+					    	{
+		
+					        	if(valido) // pasó las validaciones
+					    		{
+					        		exito();
+					    		}
+					        	else
+					    		{
+					        		if(!mensajes_elemento)
+					    			{
+					    				$.fn.cabal.verMensajes(todosLosMensajes);
+					    			}
+					        		else
+				        			{
+	    			        			$.fn.cabal.enfocar(idSelector);
+				        			}
+					    		}
+	
+					    	}
+					        else
+					    	{
+					        	validar(siguienteObjetivo,mensajes_elemento,idSelector,i+1,elementos,valido,exito,todosLosMensajes,error);
+					    	}
+    					}
+	    			}
+	        		
+	    		}
+			});
+        }   
 	}
 	
 	function obtenerId(texto)
@@ -269,7 +372,7 @@
 	{
 		if($.type(options)=="string")
 		{
-			if(options == "ocultarMensajes")
+			if(options == "hideAll")
 			{
 				$.fn.cabal.ocultarTodo();
 			}

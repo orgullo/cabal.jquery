@@ -1,6 +1,6 @@
 /*Permite validar si un campo es obligatorio*/
 //obligatorio(mensaje)
-function obligatorio(objetivo,opciones,validacion)
+function obligatorio(objetivo,opciones,validacion,fin)
 {
 	var mensajes= new Array();
 	
@@ -16,7 +16,7 @@ function obligatorio(objetivo,opciones,validacion)
 			else
 			{
 				mensajes[0] = "campo obligatorio";
-			}			
+			}
 		}
 	}
 	
@@ -85,12 +85,12 @@ function obligatorio(objetivo,opciones,validacion)
 		}
 	}
 	
-	return mensajes;
+	fin(mensajes);
 }
 
 //Valida que una fecha cumpla el formato ISO8601 YYYY-MM-DD
 //uso fecha8601 (mensaje)
-function fecha8601(objetivo,opciones,validacion)
+function fecha8601(objetivo,opciones,validacion,fin)
 {
 	var mensajes= new Array();
 	
@@ -110,12 +110,12 @@ function fecha8601(objetivo,opciones,validacion)
 		}
 	}
 	
-	return mensajes;
+	fin(mensajes);
 }
 
 //Valida que un campo de texto solo contenga los números del 0-9
 //uso: enteros(mensaje)
-function enteros(objetivo,opciones,validacion)
+function enteros(objetivo,opciones,validacion,fin)
 {
 	var mensajes= new Array();
 	
@@ -135,12 +135,12 @@ function enteros(objetivo,opciones,validacion)
 		}
 	}
 	
-	return mensajes;
+	fin(mensajes);
 }
 
 //Valida que un campo no tenga mas de una cantidad especificada de caracteres
 // ejemplo uso: max (valorMaximo,mensaje)
-function max(objetivo,opciones,validacion)
+function max(objetivo,opciones,validacion,fin)
 {
 	var mensajes= new Array();
 	
@@ -180,12 +180,12 @@ function max(objetivo,opciones,validacion)
 		}
 	}
 	
-	return mensajes;
+	fin(mensajes);
 }
 
 //compara dos elementos y valida si contienen el mismo valor
 //uso igualdad(selector,mensaje)
-function igualdad(objetivo,opciones,validacion)
+function igualdad(objetivo,opciones,validacion,fin)
 {
 	var mensajes= new Array();
 	
@@ -201,22 +201,22 @@ function igualdad(objetivo,opciones,validacion)
 			mensaje= eval(opciones[1]);
 		}
 		
-		$(campo1).css({"background":"white"});
-		$(campo2).css({"background":"white"});
+		//$(campo1).css({"background":"white"});
+		//$(campo2).css({"background":"white"});
 		if(!($(campo1).val()==$(campo2).val()))
 		{
-			$(campo1).css({"background":"red"});
-			$(campo2).css({"background":"red"});
+			//$(campo1).css({"background":"red"});
+			//$(campo2).css({"background":"red"});
 			mensajes[0] = mensaje;
 		}
 	}
 	
-	return mensajes;
+	fin(mensajes);
 }
 
 //compara dos fechas y valida que la fecha uno sea menor a la fecha 2
 //uso fechaMenor(selector,mensaje)
-function fechaMenor(objetivo,opciones,validacion)
+function fechaMenor(objetivo,opciones,validacion,fin)
 {
 	var mensajes= new Array();
 	
@@ -247,5 +247,5 @@ function fechaMenor(objetivo,opciones,validacion)
 		}
 	}
 	
-	return mensajes;
+	fin(mensajes);
 }
