@@ -2,15 +2,15 @@
     "name": "cabal",
     "title": "Data Validator Cabal",
     "description": "jQuery plugin for data and forms validation / Plugin jquery para validación de datos y formularios",
-    "homepage": "http://orgullo.users.sourceforge.net/jquery/cabal2.php",
-    "demo": "http://orgullo.users.sourceforge.net/jquery/cabal2.php?tab=1",
-    "docs": "http://orgullo.users.sourceforge.net/jquery/cabal2.php?tab=0",
+    "homepage": "http://orgullo.users.sourceforge.net/jquery/cabal3.php",
+    "demo": "http://orgullo.users.sourceforge.net/jquery/cabal3.php?tab=1",
+    "docs": "http://orgullo.users.sourceforge.net/jquery/cabal3.php?tab=0",
     "keywords": [
         "validator",
         "form",
 		"data"
         ],
-    "version": "2.0.0",
+    "version": "3.0.0",
     "author": {
             "name": "Cristian Diaz",
 		    "email" : "orgullo@users.sourceforge.net",

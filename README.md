@@ -15,7 +15,7 @@ Validador de campos para la web (html), el cual es poderoso, extensible y person
 
 ##Soporte para validaciones Ajax
 
-  En la versión 2 se adiciona soporte para peticiones ajax asíncronas. 
+  Desde la versión 2 se adiciona soporte para peticiones ajax asíncronas.
 
 ##Funciones independientes
 
@@ -30,8 +30,7 @@ Permite crear tantas funciones como sean necesarias y su alcance puede ser gener
   * dialogo: muestra los mensajes de validación en un alert()
   * flotantes: Muestra los mensajes flotando cerca al elemento que se esta validando.
   
-Estos metodos son publicos y pueden ser sobreescritos deacuerdo a las necesidades. 
-Ejemplo: utilizar jquery ui para utilizar un dialogo mas estilizado o concordante a tu aplicación.
+El objeto Cabal puede ser sobreescrito para personalizar la forma en la que se muestran estos mensajes 
 
 ##Validación mediante selector
 
@@ -40,25 +39,11 @@ Los elementos a validar puede ser desde un formulario completo hasta un simple c
 
 ##Facil de usar
 
-1. Incluir en la seción HEAD del DOM (documento html) los siguientes documentos, en el siguiente orden:
+Incluir en la seción HEAD del DOM (documento html) los siguientes documentos, en el siguiente orden:
   * libreria jquery
-  * css de cabal (jquery.cabal.css)
-  * js de cabal (jquery.cabal.js)
+  * css de cabal (jquery.cabal3.css)
+  * js de cabal (jquery.cabal3.js)
   * js de la funciones genericas de cabal (functions.cabal.x.js)
-
-2. En tu documento html marca los elementos a validar utilizando el atributo class. Ejemplo:
-    ```htm
-    <input type="text" name="nombre" class="cabal[funcion1(atributos);funcion2(atributos)... funcionN(atributos)]">
-    ```
-
-3. Realiza la validación en javasdcript cuando sea necesario, de los elementos que sean necesarios.
-   Ejemplo:
-
-	```javascript
-	   $("#form *").cabal(function(){ alert("Exito!"); });
-	```
-
-Esta linea valida todos los elementos que se encuentran en el #form y visualiza el mensaje "Exito" al cumplir las reglas.
 
 #Licencia
 
