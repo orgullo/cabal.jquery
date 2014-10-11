@@ -249,3 +249,81 @@ function fechaMenor(objetivo,opciones,validacion,fin)
 	
 	fin(mensajes);
 }
+
+//Valida que una fecha sea correcta y cumpla un formato especifico,
+//por defecto el formato es DD/MM/YYYY
+//uso fecha (mensaje,formato)
+function fecha(objetivo,opciones,validacion,fin)
+{
+	var mensajes= new Array();
+	
+	var formato='DD/MM/YYYY'; //valor por defecto
+	var mensaje='';
+	var strFecha='';
+	
+	if(validacion=="texto")
+	{
+		if ($(objetivo).val()!="")
+		{
+			if(opciones!="")
+			{
+				opciones=opciones.split(",");
+				
+				if(eval(opciones[0])!="")
+				{
+					mensaje= eval(opciones[0]);
+				}
+				
+				if(eval(opciones[1])!="")
+				{
+					formato= eval(opciones[1]);
+					formato=formato.toUpperCase();
+				}
+			}
+			
+			strFecha = _getFecha8601($(objetivo).val(),formato);
+			
+			regular=/^([0-9]{4}-((0[1-9])|(1[0-2]))-((0[1-9])|([1-2][0-9])|(3[0-1])))$|^$/;
+			if(!regular.test(strFecha))
+			{
+				if(mensaje)
+				{
+					mensajes[0] = mensaje;
+				}
+				else
+				{
+					mensajes[0] = "El formato valido de fecha es "+formato;
+				}
+			}
+		}
+	}
+	
+	fin(mensajes);
+}
+
+//acepta formatos tipo DD MM YYYY
+function _getFecha8601(fecha,formato)
+{		
+	if(fecha!="")
+	{
+		var delimitador = /[^MDY]/.exec(formato)[0];
+		
+		var date=fecha.split(delimitador);
+		var format= formato.split(delimitador);
+		
+		var m='', d='', y='';
+		
+	    for (var i = 0, len = format.length; i < len; i++) 
+	    {
+	      if (/M/.test(format[i])) m = date[i];
+	      if (/D/.test(format[i])) d = date[i];
+	      if (/Y/.test(format[i])) y = date[i];
+	    }
+	    return y+'-'+m+'-'+d;
+	}
+	else
+	{
+		return "";
+	}    
+}
+

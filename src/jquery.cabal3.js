@@ -28,7 +28,11 @@ function Cabal(options)
 	
 	this.add=function(elemento,validaciones)
 	{
-		this.elementos.push(new Array(elemento,validaciones));
+		$(elemento).each(function()
+		{
+			cabal.elementos.push(new Array(this,validaciones));
+		});
+		
 	};
 	
 	this.validar=function(funcExito,funcError)
@@ -218,7 +222,7 @@ function Cabal(options)
 	    var height = $(objetivo).outerHeight();
 	    $(div).css({ "left": (pos.left + width) + "px", "top":(pos.top) + "px","position":"absolute" }).fadeIn("slow");
 	    
-	    $(div).on("click",function()
+	    $(div).click(function()
     	{	
 			//$(div).hide("explode",null,500).remove();
 			

@@ -10,7 +10,7 @@
         "form",
 		"data"
         ],
-    "version": "3.0.0",
+    "version": "3.0.1",
     "author": {
             "name": "Cristian Diaz",
 		    "email" : "orgullo@users.sourceforge.net",
@@ -23,6 +23,6 @@
         }
     ],
     "dependencies": {
-        "jquery": ">=1.9"
+        "jquery": ">=1.6"
     }
 }
